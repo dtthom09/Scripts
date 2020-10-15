@@ -18,3 +18,10 @@ page_soup.p
 
 # grabs each product
 containers = page_soup.findAll("div", {"class": "item-container"})
+len(containers)
+
+for container in containers:
+    title = container.div.div.a["title"]
+    title_container = container.findAll("a", {"class":"item-title"})
+    product_name = title_container[0].text
+    
