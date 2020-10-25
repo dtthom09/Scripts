@@ -32,20 +32,19 @@ f.write(headers)
 
 # skip first 3 ads
 for container in containers[3:]:
-    title = container.img["title"]
+    # getting values from html for each video card
+    brand_container = container.find("div", {"class": "item-branding"})
+    brand = brand_container.img["title"]
     title_container = container.find("a", {"class": "item-title"})
     product_name = title_container.text
-    # shipping_container = container.findAll("span", {"class": "price-note-dollar"})
     shipping_container = container.find("li", {"class": "price-ship"})
     shipping = shipping_container.text.strip()
 
-    print("title: " + title)
-    print("product name: " + product_name)
-    print("shipping: " + shipping)
-
-    title.replace(",", ";")
-    product_name.replace(",", ";")
-    shipping.replace(",", ";")
-    f.write(title + "," + product_name + "," + shipping + "\n")
+    # replacing commas with semicolons to prevent parsing values
+    brand = brand.replace(",", ";")
+    product_name = product_name.replace(",", ";")
+    shipping = shipping.replace(",", ";")
+    # writing all products to csv file
+    f.write(brand + "," + product_name + "," + shipping + "\n")
 
 f.close()
